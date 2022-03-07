@@ -4,19 +4,29 @@
 const film = document.querySelector("#film");
 const movie = document.querySelector("#movie");
 const total = document.querySelector("#total");
+let filmName;
+function getFilmName(film) {
+  filmName = film.options[film.selectedIndex].text;
+}
+
+function totalPrice() {
+  total.textContent = movie.value * count.textContent;
+}
 
 movie.addEventListener("click", () => {
-  film.textContent = movie.textContent;
+  film.textContent = filmName;
+  totalPrice();
 });
+
 //! ************************************************
 // ********* SELECT A SEAT *************
 
 const selectSeats = document.querySelectorAll(".seat");
-const seatSum = document.querySelector("#count");
+const count = document.querySelector("#count");
 const occupiedSeats = document.querySelectorAll(".seat.occupied");
+
 const myArray = JSON.parse(localStorage.getItem("myArray")) || [];
-seatSum.textContent =
-  JSON.parse(localStorage.getItem("seatSum.textContent")) || 0;
+count.textContent = JSON.parse(localStorage.getItem("count.textContent")) || 0;
 total.textContent = JSON.parse(localStorage.getItem("total.textContent")) || 0;
 
 for (i in myArray) {
@@ -29,21 +39,28 @@ for (let i in selectSeats) {
     selectSeats[i].style.backgroundColor = "#6feaf6";
 
     if (!myArray.includes(i)) {
-      seatSum.textContent++;
-      // console.log(seatSum.textContent);
+      count.textContent++;
+      // console.log(count.textContent);
       myArray.push(i);
       // console.log(i);
-      total.textContent = movie.value * seatSum.textContent;
-      // console.log(movie.value, seatSum);
-      console.log(total.textContent);
+      totalPrice();
+      // getFilmName(film);
+      filmName = movie.options[movie.selectedIndex].text;
+      film.textContent = filmName;
+
+      // console.log(total.textContent);
       localStorage.setItem("myArray", JSON.stringify(myArray));
       localStorage.setItem(
-        "seatSum.textContent",
-        JSON.stringify(seatSum.textContent)
+        "count.textContent",
+        JSON.stringify(count.textContent)
       );
       localStorage.setItem(
         "total.textContent",
         JSON.stringify(total.textContent)
+      );
+      localStorage.setItem(
+        "film.textContent",
+        JSON.stringify(film.textContent)
       );
     }
   };
